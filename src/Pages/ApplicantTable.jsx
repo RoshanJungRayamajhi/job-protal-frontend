@@ -19,23 +19,29 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const ApplicantTable = () => {
-    const { applicants } = useSelector((state) => state.application);
-    const shortlisting = ["accepted","rejected"]
-    
-    const statushandler = async(id,status)=>{
-        const response = await axios.post(`http://localhost:8000/api/application/status/${id}/update`,{status},{
-            withCredentials:true
-        })
-        if(response.status === 200){
-            toast.success("Status updated successfully")
-        }else{
-            toast.error("Status update failed")
-        }
+  const { applicants } = useSelector((state) => state.application);
+  const shortlisting = ["accepted", "rejected"];
+
+  const statushandler = async (id, status) => {
+    const response = await axios.post(
+      `https://jobprotal-backend.onrender.com/api/application/status/${id}/update`,
+      { status },
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.status === 200) {
+      toast.success("Status updated successfully");
+    } else {
+      toast.error("Status update failed");
     }
+  };
 
   return (
     <Table>
-      <TableCaption className="text-lg font-semibold">A list of your applicants</TableCaption>
+      <TableCaption className="text-lg font-semibold">
+        A list of your applicants
+      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Full Name</TableHead>
@@ -77,15 +83,16 @@ const ApplicantTable = () => {
                       <MoreHorizontal />
                     </PopoverTrigger>
                     <PopoverContent className=" flex flex-col gap-4 w-fit cursor-pointer">
-                        {shortlisting.map((status)=>{
-                            return(
-                                <div className=" flex items-center gap-2 border-b-[1px] capitalize " onClick={()=>statushandler(applicant._id,status)}>
-                                    <span className="text-sm">{status}</span>
-                                </div>
-                            )
-                        })}
-                     
-                      
+                      {shortlisting.map((status) => {
+                        return (
+                          <div
+                            className=" flex items-center gap-2 border-b-[1px] capitalize "
+                            onClick={() => statushandler(applicant._id, status)}
+                          >
+                            <span className="text-sm">{status}</span>
+                          </div>
+                        );
+                      })}
                     </PopoverContent>
                   </Popover>
                 </TableCell>

@@ -40,12 +40,11 @@ const AdminJobCreate = () => {
     formData.append("experience", data.experience);
     formData.append("position", data.position);
     formData.append("company", data.company);
-    
 
     try {
       dispatch(setloading(true));
       const response = await axios.post(
-        ` http://localhost:8000/api/job/post`,
+        ` https://jobprotal-backend.onrender.com/api/job/post`,
         formData,
         {
           headers: {
@@ -54,7 +53,7 @@ const AdminJobCreate = () => {
           withCredentials: true,
         }
       );
-       if (response?.data?.success) {
+      if (response?.data?.success) {
         toast.success(response?.data?.message);
         navigate("/admin/jobs");
       }
@@ -163,7 +162,7 @@ const AdminJobCreate = () => {
             </div>
             <div>
               {allcompanies.length > 0 ? (
-                <Select onValueChange={(value)=>setValue("company",value)}>
+                <Select onValueChange={(value) => setValue("company", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a Company" />
                   </SelectTrigger>

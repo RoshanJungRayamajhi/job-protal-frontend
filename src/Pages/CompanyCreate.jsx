@@ -13,7 +13,7 @@ const CompanyCreate = () => {
     const dispatch = useDispatch()
     const registerCompany = async()=>{
         try {
-            const response = await axios.post("http://localhost:8000/api/company/register",{
+            const response = await axios.post("https://jobprotal-backend.onrender.com/api/company/register",{
                 name:companyName
             },{
                 headers:{

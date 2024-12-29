@@ -22,35 +22,37 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       dispatch(setloading(true));
-      
+
       const resp = await axios.post(
-        "http://localhost:8000/api/auth/login",
+        "https://jobprotal-backend.onrender.com/api/auth/login",
         data,
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials:true,
+          withCredentials: true,
         }
       );
-  
+
       // Store token in localStorage
       localStorage.setItem("token", resp.data.token);
-  
+
       // Dispatch user data to Redux store
       dispatch(setuser(resp.data.user));
-      
+
       console.log(resp.data);
-  
+
       // Show success message
       toast.success(resp.data.message);
-  
+
       // Redirect user after login
       navigate("/");
     } catch (error) {
       // Handle error
       const errorMessage =
-        error.response?.data?.message || error.message || "An unexpected error occurred";
+        error.response?.data?.message ||
+        error.message ||
+        "An unexpected error occurred";
       console.error(errorMessage);
-  
+
       // Show error toast
       toast.error(errorMessage);
     } finally {
@@ -58,7 +60,6 @@ const Login = () => {
       dispatch(setloading(false));
     }
   };
-  
 
   return (
     <>

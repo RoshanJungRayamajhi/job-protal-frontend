@@ -27,7 +27,7 @@ const UpdateProfileDailogue = ({ edit, setedit }) => {
     try {
       dispatch(setloading(true));
       const response = await axios.post(
-        "http://localhost:8000/api/auth/update",
+        "https://jobprotal-backend.onrender.com/api/auth/update",
         formData,
         {
           headers: {

@@ -36,17 +36,17 @@ const Signup = () => {
     try {
       dispatch(setloading(true));
       const res = await axios.post(
-        "http://localhost:8000/api/auth/register",
+        "https://jobprotal-backend.onrender.com/api/auth/register",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          withCredentials:true,
+          withCredentials: true,
         }
       );
       if (res.data.success) {
-        dispatch(setuser(res.data.user))
+        dispatch(setuser(res.data.user));
         toast.success(res.data.message);
         navigate("/");
       }

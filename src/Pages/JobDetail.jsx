@@ -29,7 +29,7 @@ const JobDetail = () => {
   const handleApply = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/application/apply/${id}`,
+        `https://jobprotal-backend.onrender.com/api/application/apply/${id}`,
         {},
         {
           headers: {
@@ -48,7 +48,6 @@ const JobDetail = () => {
         setisAppplied(false);
         toast.error(response.data.message);
       }
-
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -140,7 +139,10 @@ const JobDetail = () => {
         >
           {isAppplied ? "Already Applied" : "Apply Now"}
         </button>
-        <button onClick={()=>navigate(-1)} className=" block mt-5 text-black px-3 py-2 text-xl font-semibold rounded-md">
+        <button
+          onClick={() => navigate(-1)}
+          className=" block mt-5 text-black px-3 py-2 text-xl font-semibold rounded-md"
+        >
           Back
         </button>
       </div>

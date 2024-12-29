@@ -22,10 +22,9 @@ const CompanySetup = () => {
   useEffect(() => {
     const getSingleCompany = async () => {
       try {
-        const response = await axios.get(
-          `${COMPANYAPI_URI}/get/${id}`,
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${COMPANYAPI_URI}/get/${id}`, {
+          withCredentials: true,
+        });
         if (response?.data?.success) {
           dispatch(setsinglecompany(response?.data?.company));
           const company = response?.data?.company;
@@ -55,11 +54,11 @@ const CompanySetup = () => {
     if (data.file && data.file.length > 0) {
       formData.append("file", data.file[0]);
     }
- 
+
     try {
       dispatch(setloading(true));
       const response = await axios.post(
-        `http://localhost:8000/api/company/update/${id}`,
+        `https://jobprotal-backend.onrender.com/api/company/update/${id}`,
         formData,
         {
           headers: {
