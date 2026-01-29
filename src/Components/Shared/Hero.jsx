@@ -25,21 +25,7 @@ const Hero = () => {
           the opportunity that's meant for you. Stay persistent and keep
           believing in yourself!
         </p>
-        <div className=" mt-4 w-1/2 mx-auto flex items-end   ">
-          <div className="w-[90%] border border-gray-200 rounded-full overflow-hidden ">
-            <input
-              onChange={(e)=>setinput(e.target.value)}
-              type="text"
-              placeholder="find your dream job"
-              className="  w-full  bg-yellow-50  shadow-xl  outline-none border-none rounded-lg text-black font-semibold border-zinc-900 capitalize p-2"
-            />
-          </div>
-          <div onClick={handleSearch} className="cursor-pointer">
-            <button className=" shadow-xl h-10 bg-black text-white rounded-lg p-2">
-              <Search className=" h-5 w-5"></Search>
-            </button>
-          </div>
-        </div>
+       
       </div>
     </div>
   );
