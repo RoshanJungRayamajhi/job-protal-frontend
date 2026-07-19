@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "../Shared/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
