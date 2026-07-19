@@ -10,7 +10,7 @@ const jobSlice = createSlice({
         alladminjobs:[],
         allappliedjobs:[],
         query:"",
-        queryjobs:"",
+        queryjobs:[],
     },
     reducers:{
         setalljobs:(state,action)=>{
