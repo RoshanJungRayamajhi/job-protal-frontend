@@ -48,6 +48,7 @@ const ApplicantTable = () => {
           <TableHead>Email</TableHead>
           <TableHead>Contact Number</TableHead>
           <TableHead>Resume</TableHead>
+          <TableHead>ATS Score</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
@@ -56,7 +57,7 @@ const ApplicantTable = () => {
         {applicants?.length > 0 ? (
           applicants.map((applicant) => {
             return (
-              <TableRow>
+              <TableRow key={applicant._id}>
                 <TableCell>{applicant.applicant.fullname}</TableCell>
                 <TableCell>{applicant.applicant.email}</TableCell>
                 <TableCell>{applicant.applicant.phoneNumber}</TableCell>
@@ -75,6 +76,23 @@ const ApplicantTable = () => {
                   )}
                 </TableCell>
                 <TableCell>
+                  {applicant?.applicant?.profile?.atsScore != null ? (
+                    <span
+                      className={
+                        applicant.applicant.profile.atsScore >= 70
+                          ? "text-green-600 font-semibold"
+                          : applicant.applicant.profile.atsScore >= 40
+                          ? "text-yellow-600 font-semibold"
+                          : "text-red-500 font-semibold"
+                      }
+                    >
+                      {applicant.applicant.profile.atsScore}%
+                    </span>
+                  ) : (
+                    <span className="text-gray-400">N/A</span>
+                  )}
+                </TableCell>
+                <TableCell>
                   {applicant?.applicant?.createdAt.split("T")[0]}
                 </TableCell>
                 <TableCell>
@@ -86,6 +104,7 @@ const ApplicantTable = () => {
                       {shortlisting.map((status) => {
                         return (
                           <div
+                            key={status}
                             className=" flex items-center gap-2 border-b-[1px] capitalize "
                             onClick={() => statushandler(applicant._id, status)}
                           >

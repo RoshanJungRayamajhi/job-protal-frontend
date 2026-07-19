@@ -17,6 +17,7 @@ const useGetsinglejob = (id) => {
         }
       } catch (error) {
         console.error(error.message);
+        // eslint-disable-next-line no-undef
         toast.error(error.message);
       }
     };
