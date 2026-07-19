@@ -5,65 +5,79 @@ import { Avatar, AvatarImage } from "../ui/avatar";
 import { Link } from "react-router-dom";
 
 const JobCard = ({ job }) => {
-  const dataAgoFunction = (createdAt) => {
-    const data = new Date(createdAt);
-    const now = new Date();
-    const diffTime = now - data;
-    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const daysAgo = (createdAt) => {
+    const diff = new Date() - new Date(createdAt);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    return days === 0 ? "Today" : `${days} day${days > 1 ? "s" : ""} ago`;
   };
 
   return (
-    <div className="shadow-xl p-4 rounded-2xl flex flex-col justify-between">
-      <div className=" flex justify-between items-center">
-        <p className=" text-base font-medium text-zinc-700">
-          {dataAgoFunction(job?.createdAt)} day ago
+    <div className="group flex flex-col justify-between rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-100/50">
+      {/* Top row: date + bookmark */}
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-medium text-zinc-400">
+          {daysAgo(job?.createdAt)}
         </p>
-        <Button variant="outline" size="icon" className="bg-white rounded-full">
-          <Bookmark />
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full border-zinc-200 text-zinc-400 hover:border-emerald-400 hover:text-emerald-600"
+        >
+          <Bookmark size={16} />
         </Button>
       </div>
-      <div className="flex items-center gap-2">
-        <Button variant="outline" className="bg-white rounded-full" size="icon">
+
+      {/* Company */}
+      <div className="mt-4 flex items-center gap-3">
+        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-zinc-100 bg-zinc-50">
           <Avatar>
             <AvatarImage src={job?.company?.logo} />
           </Avatar>
-        </Button>
-        <div className="flex flex-col ">
-          <h1 className=" text-xl font-semibold capitalize">
-            {" "}
-            {job?.company?.name}
-          </h1>
-          <p className=" text-sm text-zinc-700">{job?.location}</p>
         </div>
-        
+        <div>
+          <h2 className="font-semibold capitalize text-zinc-900">
+            {job?.company?.name}
+          </h2>
+          <p className="text-sm text-zinc-500">{job?.location}</p>
+        </div>
       </div>
-      <div className="my-2">
-        <h1 className=" font-semibold text-lg">{job?.title}</h1>
-        <p className="text-sm font-normal">{job?.description}</p>
+
+      {/* Title + description */}
+      <div className="mt-4">
+        <h3 className="text-lg font-bold text-zinc-900 transition group-hover:text-emerald-700">
+          {job?.title}
+        </h3>
+        <p className="mt-1 text-sm leading-relaxed text-zinc-500 line-clamp-2">
+          {job?.description}
+        </p>
       </div>
-      <div className="flex flex-wrap justify-between  items-center gap-2">
-        <button className="  text-black border-[1px] border-zinc-700 px-2 py-[1px] rounded-md whitespace-nowrap">
+
+      {/* Badges */}
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
           {job?.jobType}
-        </button>
-        <button className="  text-black border-[1px] border-zinc-700 px-2 py-[1px] rounded-md">
+        </span>
+        <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
           {job?.salary}
-        </button>
-        <button className="  text-black border-[1px] border-zinc-700 px-2 py-[1px] rounded-md">
+        </span>
+        <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-700">
           {job?.position} positions
-        </button>
+        </span>
       </div>
-      <div className=" flex flex-wrap items-center justify-between my-4 text-lg font-semibold ">
+
+      {/* Actions */}
+      <div className="mt-5 flex items-center gap-3 border-t border-zinc-100 pt-4">
         <Link
           to={`/description/${job?._id}`}
-          className=" bg-zinc-700 text-white px-3 py-1 rounded-md"
+          className="flex-1 rounded-lg bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-emerald-700 active:scale-95"
         >
-          Details
+          View Details
         </Link>
         <Link
           to="/job/save"
-          className=" bg-zinc-700 text-white px-3 py-1 rounded-md"
+          className="flex-1 rounded-lg border border-zinc-200 px-4 py-2 text-center text-sm font-medium text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-600"
         >
-          Save for later
+          Save for Later
         </Link>
       </div>
     </div>

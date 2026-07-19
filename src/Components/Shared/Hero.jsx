@@ -1,33 +1,33 @@
-import { setquery } from "@/Redux/jobSlice";
-import { Search } from "lucide-react";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const Hero = () => {
-  const [input, setinput] = useState("")
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const handleSearch = ()=>{
-    dispatch(setquery(input))
-    navigate("/browse")
-  }
   return (
-    <div>
-      <div className="mt-10 text-2xl  w-fit mx-auto h-10 whitespace-nowrap bg-zinc-600  text-green-400  capitalize rounded-lg px-2 py-1 ">
-        No.1 job hunt website
-      </div>
-      <div className=" mx-auto text-center py-10">
-        <h1 className=" text-6xl font-semibold">Search, Apply</h1>
-        <h1 className=" text-6xl font-semibold">Get your dream job</h1>
-        <p className=" text-xl text-zinc-900 font-semibold mt-10 w-1/2 mx-auto">
-          Your career journey is unique—every application brings you closer to
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/40 to-white">
+      <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+        {/* Badge */}
+        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-sm font-medium text-emerald-700 capitalize">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          No.1 job hunt website
+        </span>
+
+        {/* Headline */}
+        <h1 className="mt-8 text-5xl md:text-6xl font-bold tracking-tight text-zinc-900 leading-tight">
+          Search, Apply
+          <br />
+          Get Your{" "}
+          <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            Dream Job
+          </span>
+        </h1>
+
+        {/* Subtext */}
+        <p className="mx-auto mt-8 max-w-xl text-lg text-zinc-500 leading-relaxed">
+          Your career journey is unique, every application brings you closer to
           the opportunity that's meant for you. Stay persistent and keep
           believing in yourself!
         </p>
-       
       </div>
-    </div>
+    </section>
   );
 };
 
