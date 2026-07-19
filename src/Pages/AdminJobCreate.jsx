@@ -5,27 +5,39 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/Components/ui/select";
 import { setloading } from "@/Redux/authSlice";
-import { setsinglecompany } from "@/Redux/companySlice";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const AdminJobCreate = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      requirements: "",
+      location: "",
+      salary: "",
+      jobType: "",
+      experience: "",
+      position: "",
+      company: "",
+    },
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
-  const { id } = useParams();
-  const { singlecompany } = useSelector((state) => state.company);
   const { allcompanies } = useSelector((state) => state.company);
 
   const onSubmit = async (data) => {
@@ -44,7 +56,7 @@ const AdminJobCreate = () => {
     try {
       dispatch(setloading(true));
       const response = await axios.post(
-        ` https://jobprotal-backend.onrender.com/api/job/post`,
+        `https://jobprotal-backend.onrender.com/api/job/post`,
         formData,
         {
           headers: {
@@ -58,11 +70,12 @@ const AdminJobCreate = () => {
         navigate("/admin/jobs");
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Error updating company.");
+      toast.error(error?.response?.data?.message || "Error creating job.");
     } finally {
       dispatch(setloading(false));
     }
   };
+
   return (
     <div>
       <Navbar />
@@ -85,99 +98,198 @@ const AdminJobCreate = () => {
                 Job Title
               </label>
               <input
-                {...register("title")}
+                {...register("title", {
+                  required: "Job title is required",
+                  minLength: {
+                    value: 3,
+                    message: "Title must be at least 3 characters",
+                  },
+                })}
                 type="text"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.title && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.title.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Description
               </label>
               <input
-                {...register("description")}
+                {...register("description", {
+                  required: "Job description is required",
+                  minLength: {
+                    value: 10,
+                    message: "Description must be at least 10 characters",
+                  },
+                })}
                 type="text"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.description && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Requirements
               </label>
               <input
-                {...register("requirements")}
+                {...register("requirements", {
+                  required: "Job requirements are required",
+                })}
                 type="text"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.requirements && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.requirements.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Location
               </label>
               <input
-                {...register("location")}
+                {...register("location", {
+                  required: "Job location is required",
+                })}
                 type="text"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.location && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.location.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Salary
               </label>
               <input
-                {...register("salary")}
+                {...register("salary", {
+                  required: "Job salary is required",
+                  min: {
+                    value: 0,
+                    message: "Salary must be a positive number",
+                  },
+                })}
                 type="number"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.salary && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.salary.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Type
               </label>
               <input
-                {...register("jobType")}
+                {...register("jobType", {
+                  required: "Job type is required",
+                })}
                 type="text"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.jobType && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.jobType.message}
+                </p>
+              )}
             </div>
             <div>
               <label className="text-center text-xl font-semibold block">
                 Job Experience
               </label>
               <input
-                {...register("experience")}
-                type="text"
+                {...register("experience", {
+                  required: "Job experience is required",
+                })}
+                type="number"
                 className="w-full p-2 rounded-md border border-gray-300"
               />
+              {errors.experience && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.experience.message}
+                </p>
+              )}
             </div>
+           <div>
+  <label className="text-center text-xl font-semibold block">
+    Job Position
+  </label>
+  <input
+    {...register("position", {
+      required: "Job position is required",
+      min: {
+        value: 1,
+        message: "Position must be at least 1",
+      },
+      pattern: {
+        value: /^[0-9]+$/,
+        message: "Only numbers are allowed",
+      },
+    })}
+    type="number"
+    className="w-full p-2 rounded-md border border-gray-300"
+  />
+  {errors.position && (
+    <p className="text-red-500 text-sm mt-1">
+      {errors.position.message}
+    </p>
+  )}
+</div>
+
             <div>
-              <label className="text-center text-xl font-semibold block">
-                Job Position
+              <label className="text-center text-xl font-semibold block mb-2">
+                Select Company
               </label>
-              <input
-                {...register("position")}
-                type="text"
-                className="w-full p-2 rounded-md border border-gray-300"
-              />
-            </div>
-            <div>
               {allcompanies.length > 0 ? (
-                <Select onValueChange={(value) => setValue("company", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a Company" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {allcompanies.map((company) => (
-                        <SelectItem key={company._id} value={company._id}>
-                          {company.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <>
+                  <Controller
+                    name="company"
+                    control={control}
+                    rules={{ required: "Please select a company" }}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a Company" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {allcompanies.map((company) => (
+                              <SelectItem key={company._id} value={company._id}>
+                                {company.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.company && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.company.message}
+                    </p>
+                  )}
+                </>
               ) : (
-                <p> you have to register company first</p>
+                <p className="text-red-500">
+                  You have to register a company first
+                </p>
               )}
             </div>
           </div>

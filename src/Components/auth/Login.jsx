@@ -1,8 +1,7 @@
-import React from "react";
 import Navbar from "../Shared/Navbar";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -10,13 +9,22 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setloading, setuser } from "../../Redux/authSlice.js";
-
 import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      role: "",
+    },
+  });
   const { loading } = useSelector((state) => state.auth);
 
   const onSubmit = async (data) => {
@@ -76,12 +84,23 @@ const Login = () => {
               Email
             </Label>
             <Input
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
               id="email"
               className="mt-3"
               type="email"
               placeholder="Email"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="my-2">
@@ -89,19 +108,31 @@ const Login = () => {
               Password
             </Label>
             <Input
-              {...register("password", { required: "Password is required" })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
               id="password"
               className="mt-3"
               type="password"
               placeholder="Password"
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <div className="my-4">
+            <Label className="text-xl mb-2 block">Role</Label>
             <RadioGroup className="flex items-center gap-4">
               <div className="flex items-center space-x-2">
                 <Input
-                  {...register("role", { required: "Role is required" })}
+                  {...register("role", { required: "Please select a role" })}
                   type="radio"
                   value="student"
                   id="student"
@@ -111,7 +142,7 @@ const Login = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Input
-                  {...register("role", { required: "Role is required" })}
+                  {...register("role", { required: "Please select a role" })}
                   type="radio"
                   value="recruiter"
                   id="recruiter"
@@ -120,6 +151,11 @@ const Login = () => {
                 <Label htmlFor="recruiter">Recruiter</Label>
               </div>
             </RadioGroup>
+            {errors.role && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.role.message}
+              </p>
+            )}
           </div>
 
           {loading ? (
