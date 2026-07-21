@@ -26,6 +26,7 @@ const Login = () => {
     },
   });
   const { loading } = useSelector((state) => state.auth);
+  console.log(loading, "loading state");
 
   const onSubmit = async (data) => {
     try {
@@ -171,7 +172,7 @@ const Login = () => {
           <span>
             Don't have an account?{" "}
             <Link className="text-blue-700" to="/signup">
-              Signup
+              Register here
             </Link>
           </span>
         </form>

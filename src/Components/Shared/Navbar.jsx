@@ -105,7 +105,7 @@ const Navbar = () => {
             </Link>
             <Link to="/signup">
               <Button className=" text-xl" variant="outline">
-                Signup
+                Register
               </Button>
             </Link>
           </div>

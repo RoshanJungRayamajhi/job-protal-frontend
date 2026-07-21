@@ -250,7 +250,7 @@ const Signup = () => {
             </div>
           ) : (
             <Button type="submit" className="w-full my-2">
-              Signup
+              Register
             </Button>
           )}
 
